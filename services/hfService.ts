@@ -6,7 +6,7 @@ import { API_MODEL_MAP } from "../constants";
 import { useAppStore } from "../store/appStore";
 
 const ZIMAGE_BASE_API_URL = "https://luca115-z-image-turbo.hf.space";
-const ZIMAGE_MODEL_BASE_API_URL = "https://victor-z-image-mcp.hf.space";
+const ZIMAGE_MODEL_BASE_API_URL = "https://tongyi-mai-z-image.hf.space";
 const QWEN_IMAGE_BASE_API_URL = "https://mcp-tools-qwen-image-fast.hf.space";
 const OVIS_IMAGE_BASE_API_URL = "https://aidc-ai-ovis-image-7b.hf.space";
 const FLUX_SCHNELL_BASE_API_URL = "https://black-forest-labs-flux-1-schnell.hf.space";
@@ -287,7 +287,7 @@ const generateZImageModel = async (
   aspectRatio: AspectRatioOption,
   seed: number = Math.round(Math.random() * 2147483647),
   steps: number = 30,
-  guidanceScale: number = 3
+  guidanceScale: number = 4
 ): Promise<GeneratedImage> => {
   const dimensionString = getZImageDimensionsString(aspectRatio);
 
@@ -302,11 +302,12 @@ const generateZImageModel = async (
             seed,
             steps,
             guidanceScale,
-            true,
-            false
+            false,
+            false,
+            []
           ],
-          1, // fn_index
-          18, // trigger_id
+          3, // fn_index
+          21, // trigger_id
           token
       );
 
@@ -315,7 +316,7 @@ const generateZImageModel = async (
       
       let url = data[0].url;
       if (!url && typeof data[0] === 'string') url = data[0]; 
-      if (!url && data[0].image?.url) url = data[0].image.url;
+      if (!url && data[0][0].image?.url) url = data[0][0].image.url;
 
       if (!url) throw new Error("error_invalid_response");
 
