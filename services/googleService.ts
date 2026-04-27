@@ -1,5 +1,6 @@
 import { GeneratedImage, AspectRatioOption, ModelOption } from "../types";
 import { generateUUID } from "./utils";
+import { getDimensions } from "./dimensions";
 import { useConfigStore } from "../store/configStore";
 import { runWithTokenRetry } from "./tokenRetry";
 
@@ -39,10 +40,12 @@ export const generateGoogleImage = async (
           ? [base64Image]
           : [];
 
+      const { width, height } = getDimensions(aspectRatio, enableHD);
+
       const enhancedPrompt =
         imageArray.length > 0
-          ? `Please edit the provided image according to these instructions: ${prompt}`
-          : `Please generate an image based on these instructions: ${prompt}`;
+          ? `Please edit the provided image according to these instructions: ${prompt} (Target image size: ${width}x${height})`
+          : `Please generate an image based on these instructions: ${prompt} (Target image size: ${width}x${height})`;
 
       const parts: any[] = [{ text: enhancedPrompt }];
 

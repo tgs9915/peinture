@@ -45,7 +45,7 @@ export const generateOpenAIImage = async (
         const content: any[] = [
           {
             type: "input_text",
-            text: `Please edit the provided image according to these instructions: ${prompt}`,
+            text: `Please edit the provided image according to these instructions: ${prompt} (Target image size: ${sizeString})`,
           },
         ];
 
@@ -78,7 +78,7 @@ export const generateOpenAIImage = async (
           content: [
             {
               type: "input_text",
-              text: `Please generate an image based on these instructions: ${prompt}`,
+              text: `Please generate an image based on these instructions: ${prompt} (Target image size: ${sizeString})`,
             },
           ],
         });

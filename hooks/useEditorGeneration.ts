@@ -41,24 +41,8 @@ export const useEditorGeneration = (
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState<string | null>(null);
   const [isOptimizing, setIsOptimizing] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
-
-  // Timer
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    if (isGenerating) {
-      setElapsedTime(0);
-      const startTime = Date.now();
-      interval = setInterval(() => {
-        setElapsedTime((Date.now() - startTime) / 1000);
-      }, 100);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isGenerating]);
 
   useEffect(() => {
     return () => abortControllerRef.current?.abort();
@@ -405,7 +389,6 @@ export const useEditorGeneration = (
     isOptimizing,
     isDownloading,
     isUploading,
-    elapsedTime,
     generatedResult,
     setGeneratedResult,
     handleGenerate,
